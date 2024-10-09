@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from rest_framework import permissions
+
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 from .services.product_service import ProductService
@@ -8,6 +10,7 @@ from .filters.postgres_filter import PostgresProductFilter
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -24,4 +27,5 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
